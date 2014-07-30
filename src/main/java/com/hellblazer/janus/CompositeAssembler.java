@@ -44,20 +44,21 @@ public class CompositeAssembler<T> {
         }
     }
 
-    private static ClassLoader getLoader(Class composite) {
+    private static ClassLoader getLoader(Class<?> composite) {
         return composite.getClassLoader();
     }
 
-    protected final Class<T> generated;
-    protected final CompositeClassLoader loader;
+    protected final Class<T>               generated;
+    protected final CompositeClassLoader   loader;
     protected final Map<Class<?>, Integer> mixInMap;
 
-    protected final Class<?>[] mixIns;
+    protected final Class<?>[]             mixIns;
 
     public CompositeAssembler(Class<T> composite) {
         this(composite, getLoader(composite));
     }
 
+    @SuppressWarnings("unchecked")
     public CompositeAssembler(Class<T> composite, final ClassLoader parentLoader) {
         if (!composite.isInterface()) {
             throw new IllegalArgumentException(

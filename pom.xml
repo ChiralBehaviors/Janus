@@ -1,100 +1,74 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd"
+>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hellblazer</groupId>
-	<artifactId>janus</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>bundle</packaging>
-	<name>Janus - Composite Object Framework</name>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.hellblazer</groupId>
+    <artifactId>janus</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Janus - Composite Object Framework</name>
 
-	<licenses>
-		<license>
-			<name>GNU Affero General Public License V3</name>
-			<url>http://www.gnu.org/licenses/agpl-3.0.txt</url>
-			<distribution>repo</distribution>
-			<comments>
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License V3</name>
+            <url>http://www.gnu.org/licenses/agpl-3.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>
                 Copyright (c) 2008, Hal Hildebrand
                 &lt;hal.hildebrand @ gmail.com&gt; All
                 rights reserved.
             </comments>
-		</license>
-	</licenses>
+        </license>
+    </licenses>
 
-	<dependencies>
-		<dependency>
-			<groupId>asm</groupId>
-			<artifactId>asm-all</artifactId>
-			<version>3.3</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.9</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-all</artifactId>
+            <version>3.3</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<!-- OSGi Felix bundle plugin -->
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.1.0</version>
-				<configuration>
-					<instructions>
-						<obrRepository>NONE</obrRepository>
-						<!-- bundle specific conf -->
-						<Bundle-Name>${project.artifactId}</Bundle-Name>
-						<Bundle-SymbolicName>
-							com.hellblazer.janus
-						</Bundle-SymbolicName>
-						<Implementation-Title><![CDATA[Janus - Composite Object Framework]]></Implementation-Title>
-						<Implementation-Version>
-							${project.version}
-						</Implementation-Version>
-						<Implementation-Vendor>
-							com.hellblazer
-						</Implementation-Vendor>
-						<Implementation-Vendor-Id>
-							com.hellblazer
-						</Implementation-Vendor-Id>
-					</instructions>
-				</configuration>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>java.util.logging.config.file</name>
-							<value>logging.properties</value>
-						</property>
-					</systemProperties>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>java.util.logging.config.file</name>
+                            <value>logging.properties</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<debug>true</debug>
-					<fork>true</fork>
-					<meminitial>128m</meminitial>
-					<maxmem>512m</maxmem>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <debug>true</debug>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 
