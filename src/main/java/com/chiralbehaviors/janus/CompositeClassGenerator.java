@@ -1,22 +1,19 @@
 /**
- * Copyright (C) 2008 Hal Hildebrand. All rights reserved.
- * 
- * This file is part of the Janus Composite Object Framework.
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as 
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * (C) Copyright 2008 Chiral Behaviors, LLC. All Rights Reserved
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package com.hellblazer.janus;
+package com.chiralbehaviors.janus;
 
 import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
 import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
@@ -43,17 +40,17 @@ import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
 /**
- * 
+ *
  * @author <a href="mailto:hal.hildebrand@gmail.com">Hal Hildebrand</a>
- * 
+ *
  */
 
 public class CompositeClassGenerator {
     class Visitor extends ClassAdapter {
         class MVisitor extends MethodAdapter {
-            int access;
+            int      access;
             String[] exceptions;
-            String name, desc, signature;
+            String   name, desc, signature;
 
             public MVisitor(int access, String name, String desc,
                             String signature, String[] exceptions,
@@ -77,7 +74,7 @@ public class CompositeClassGenerator {
 
         protected String fieldName;
 
-        protected Type mixIn;
+        protected Type   mixIn;
 
         public Visitor(Type mixIn, String fieldName) {
             super(new EmptyVisitor());
@@ -94,8 +91,9 @@ public class CompositeClassGenerator {
         }
     }
 
-    public static final String GENERATED_COMPOSITE_SUFFIX = "$composite";
-    protected static final String MIX_IN_VAR_PREFIX = "mixIn_";
+    public static final String       GENERATED_COMPOSITE_SUFFIX = "$composite";
+
+    protected static final String    MIX_IN_VAR_PREFIX          = "mixIn_";
 
     public static ClassReader getClassReader(Class<?> clazz) {
         Type type = Type.getType(clazz);
@@ -103,26 +101,26 @@ public class CompositeClassGenerator {
         InputStream is = clazz.getResourceAsStream(classResourceName);
         if (is == null) {
             throw new VerifyError("cannot read class resource for: "
-                                  + classResourceName);
+                    + classResourceName);
         }
         ClassReader reader;
         try {
             reader = new ClassReader(is);
         } catch (IOException e) {
             VerifyError v = new VerifyError("cannot read class resource for: "
-                                            + classResourceName);
+                    + classResourceName);
             v.initCause(e);
             throw v;
         }
         return reader;
     }
 
-    protected Class<?> composite;
-    protected Type compositeType;
-    protected Type generatedType;
-    protected Map<Class<?>, Integer> mixInTypeMapping = new HashMap<Class<?>, Integer>();
-    protected Class<?>[] mixInTypes;
-    protected ClassWriter writer;
+    protected Class<?>               composite;
+    protected Type                   compositeType;
+    protected Type                   generatedType;
+    protected Map<Class<?>, Integer> mixInTypeMapping           = new HashMap<Class<?>, Integer>();
+    protected Class<?>[]             mixInTypes;
+    protected ClassWriter            writer;
 
     public CompositeClassGenerator(Class<?> composite) {
         this.composite = composite;
