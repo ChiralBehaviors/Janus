@@ -29,13 +29,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodAdapter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.EmptyVisitor;
 import org.objectweb.asm.commons.GeneratorAdapter;
 import org.objectweb.asm.commons.Method;
 
@@ -46,8 +45,8 @@ import org.objectweb.asm.commons.Method;
  */
 
 public class CompositeClassGenerator {
-    class Visitor extends ClassAdapter {
-        class MVisitor extends MethodAdapter {
+    class Visitor extends ClassVisitor {
+        class MVisitor extends MethodVisitor {
             int      access;
             String[] exceptions;
             String   name, desc, signature;
@@ -55,7 +54,7 @@ public class CompositeClassGenerator {
             public MVisitor(int access, String name, String desc,
                             String signature, String[] exceptions,
                             MethodVisitor mv) {
-                super(mv);
+                super(Opcodes.ASM5, mv);
                 this.access = access;
                 this.name = name;
                 this.desc = desc;
@@ -77,7 +76,7 @@ public class CompositeClassGenerator {
         protected Type   mixIn;
 
         public Visitor(Type mixIn, String fieldName) {
-            super(new EmptyVisitor());
+            super(Opcodes.ASM5);
             this.mixIn = mixIn;
             this.fieldName = fieldName;
         }
@@ -91,9 +90,9 @@ public class CompositeClassGenerator {
         }
     }
 
-    public static final String       GENERATED_COMPOSITE_SUFFIX = "$composite";
+    public static final String    GENERATED_COMPOSITE_SUFFIX = "$composite";
 
-    protected static final String    MIX_IN_VAR_PREFIX          = "mixIn_";
+    protected static final String MIX_IN_VAR_PREFIX          = "mixIn_";
 
     public static ClassReader getClassReader(Class<?> clazz) {
         Type type = Type.getType(clazz);
@@ -101,14 +100,14 @@ public class CompositeClassGenerator {
         InputStream is = clazz.getResourceAsStream(classResourceName);
         if (is == null) {
             throw new VerifyError("cannot read class resource for: "
-                    + classResourceName);
+                                  + classResourceName);
         }
         ClassReader reader;
         try {
             reader = new ClassReader(is);
         } catch (IOException e) {
             VerifyError v = new VerifyError("cannot read class resource for: "
-                    + classResourceName);
+                                            + classResourceName);
             v.initCause(e);
             throw v;
         }
@@ -118,7 +117,7 @@ public class CompositeClassGenerator {
     protected Class<?>               composite;
     protected Type                   compositeType;
     protected Type                   generatedType;
-    protected Map<Class<?>, Integer> mixInTypeMapping           = new HashMap<Class<?>, Integer>();
+    protected Map<Class<?>, Integer> mixInTypeMapping = new HashMap<Class<?>, Integer>();
     protected Class<?>[]             mixInTypes;
     protected ClassWriter            writer;
 
