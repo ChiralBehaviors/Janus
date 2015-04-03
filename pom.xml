@@ -4,7 +4,7 @@
 >
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.hellblazer</groupId>
+    <groupId>com.chiralbehaviors</groupId>
     <artifactId>janus</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
