@@ -84,6 +84,10 @@ public class CompositeClassGenerator {
         @Override
         public MethodVisitor visitMethod(int access, String name, String desc,
                                          String signature, String[] exceptions) {
+            if (access == Opcodes.ACC_STATIC) {
+                return super.visitMethod(access, name, desc, signature,
+                                         exceptions);
+            }
             MethodVisitor mv = super.visitMethod(access, name, desc, signature,
                                                  exceptions);
             return new MVisitor(access, name, desc, signature, exceptions, mv);
