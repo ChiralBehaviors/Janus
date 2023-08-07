@@ -15,11 +15,13 @@
  */
 package com.chiralbehaviors.janus;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.PrintWriter;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
+import org.junit.jupiter.api.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.TraceClassVisitor;
@@ -35,36 +37,32 @@ import com.chiralbehaviors.janus.testClasses.MixIn2;
  *
  */
 
-public class TestCompositeClassGenerator extends TestCase {
+public class TestCompositeClassGenerator {
+    @Test
     public void testGeneratedBits() {
-        CompositeClassGenerator generator = new CompositeClassGenerator(
-                                                                        Composite1.class);
+        CompositeClassGenerator generator = new CompositeClassGenerator(Composite1.class);
         byte[] generatedBits = generator.generateClassBits();
         assertNotNull(generatedBits);
-        TraceClassVisitor tcv = new TraceClassVisitor(
-                                                      new PrintWriter(
-                                                                      System.out));
+        TraceClassVisitor tcv = new TraceClassVisitor(new PrintWriter(System.out));
         CheckClassAdapter cv = new CheckClassAdapter(tcv);
         ClassReader reader = new ClassReader(generatedBits);
         reader.accept(cv, 0);
     }
 
+    @Test
     public void testGeneratedClass() {
-        CompositeClassGenerator generator = new CompositeClassGenerator(
-                                                                        Composite1.class);
-        CompositeClassLoader loader = new CompositeClassLoader(
-                                                               Composite1.class.getClassLoader());
-        Class<?> generated = loader.define(generator.getGeneratedClassName(),
-                                           generator.generateClassBits());
+        CompositeClassGenerator generator = new CompositeClassGenerator(Composite1.class);
+        CompositeClassLoader loader = new CompositeClassLoader(Composite1.class.getClassLoader());
+        Class<?> generated = loader.define(generator.getGeneratedClassName(), generator.generateClassBits());
         assertNotNull(generated);
     }
 
+    @Test
     public void testInitialization() {
-        CompositeClassGenerator generator = new CompositeClassGenerator(
-                                                                        Composite1.class);
+        CompositeClassGenerator generator = new CompositeClassGenerator(Composite1.class);
         Map<Class<?>, Integer> mixInMap = generator.getMixInTypeMapping();
         assertEquals(2, mixInMap.size());
-        assertEquals(new Integer(0), mixInMap.get(MixIn1.class));
-        assertEquals(new Integer(1), mixInMap.get(MixIn2.class));
+        assertEquals(0, mixInMap.get(MixIn1.class));
+        assertEquals(1, mixInMap.get(MixIn2.class));
     }
 }

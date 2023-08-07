@@ -15,7 +15,11 @@
  */
 package com.chiralbehaviors.janus;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
+import org.junit.jupiter.api.Test;
 
 import com.chiralbehaviors.janus.testClasses.Composite1;
 import com.chiralbehaviors.janus.testClasses.MixIn1Impl;
@@ -27,11 +31,11 @@ import com.chiralbehaviors.janus.testClasses.MixIn2Impl;
  *
  */
 
-public class TestCompositeAssembler extends TestCase {
+public class TestCompositeAssembler {
 
+    @Test
     public void testConstruct() {
-        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(
-                Composite1.class);
+        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(Composite1.class);
         MixIn1Impl mixIn1 = new MixIn1Impl();
         MixIn2Impl mixIn2 = new MixIn2Impl();
 
@@ -39,8 +43,7 @@ public class TestCompositeAssembler extends TestCase {
         assertNotNull(instance);
         assertEquals("MixIn1-Method1", instance.m11());
         assertEquals("MixIn1-Method2", instance.m12());
-        assertEquals("Hello",
-                     instance.m13("Goodbye", "Hello", "Not here at the moment"));
+        assertEquals("Hello", instance.m13("Goodbye", "Hello", "Not here at the moment"));
         assertEquals("MixIn2-Method1", instance.m21());
         assertEquals("MixIn2-Method2", instance.m22());
         instance.m23("Hello");
@@ -48,9 +51,9 @@ public class TestCompositeAssembler extends TestCase {
         assertEquals(0, instance.m24());
     }
 
+    @Test
     public void testFacets() {
-        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(
-                Composite1.class);
+        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(Composite1.class);
         MixIn1Impl mixIn1 = new MixIn1Impl();
         MixIn2Impl mixIn2 = new MixIn2Impl();
 
@@ -60,9 +63,9 @@ public class TestCompositeAssembler extends TestCase {
         assertSame(mixIn1, instance.getFriend2());
     }
 
+    @Test
     public void testThis() {
-        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(
-                Composite1.class);
+        CompositeAssembler<Composite1> assembler = new CompositeAssembler<Composite1>(Composite1.class);
         MixIn1Impl mixIn1 = new MixIn1Impl();
         MixIn2Impl mixIn2 = new MixIn2Impl();
 
